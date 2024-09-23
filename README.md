@@ -17,15 +17,13 @@ Requirements
 • NumPy
 • TensorFlow/Keras (or PyTorch, depending on your model)
 
-Installation
+**Installation**
 
 1. Clone the repository:
-bash
-Copy code
 git clone https://github.com/20240290/real_time_hand_gesture_recognizer.git
 cd gesture-recognizer
 
-Usage
+**Usage**
 
 1. Run the main application:
 
