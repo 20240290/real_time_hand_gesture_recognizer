@@ -37,6 +37,7 @@ cd gesture-recognizer
     3. Recognize the gesture.
     4. Clear dataset.
     5. End the program.
+
 Note: Best option to clear the dataset if you want to start collecting new set of images.
 Then select the item 1 in the menu to capture the dataset of gestures.
 
