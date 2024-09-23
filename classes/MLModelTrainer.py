@@ -21,7 +21,7 @@ class MLModelTrainer:
     # data set source directory
     source_dir = ""
 
-    def __init__(self, source):
+    def __init__(self, source, callback):
         """
         Default class initializer.
 
@@ -29,7 +29,9 @@ class MLModelTrainer:
         ---------
         source: String
             The source directory of the data set.
-
+        callback: Method    
+            Call back function.
+        
         Return
         ------
         None
@@ -37,6 +39,7 @@ class MLModelTrainer:
         # assign the source directory
         self.source_dir = source
         self.img_size = const.IMAGE_SIZE
+        self.callback = callback
     
     def configure(self):
         """
@@ -53,9 +56,8 @@ class MLModelTrainer:
             Array of images captures.
         Tags:
             Array of labels generatef from captured assets.
-
         """
-        
+    
         # variable to hold array of snapshots
         snapshots = []
 
@@ -108,28 +110,21 @@ class MLModelTrainer:
         snapshots = snapshots / 255.0
         tags = to_cat(tags)
 
-        # print("configure snapshots.", len(snapshots)) 
-        # print("configure tags.", len(tags))  
-
         if len(tags) > len(snapshots):
             diff = len(tags) - len(snapshots)
             new_tags = tags[:-diff]
-            print("diff.", diff) 
-            print("configure snapshots.", len(snapshots)) 
-            print("new_tags tags.", len(new_tags))  
             X_train, X_test, y_train, y_test = trainer(snapshots, 
                                                    new_tags, 
                                                    test_size=const.TRAINER_TEST_SIZE, 
                                                    random_state=const.TRAINER_TEST_RANDOM_STATE)
-            print("trainer value: ", X_train, X_test, y_train, y_test)
             return X_train, X_test, y_train, y_test
         else:
             X_train, X_test, y_train, y_test = trainer(snapshots, 
                                                    tags, 
                                                    test_size=const.TRAINER_TEST_SIZE, 
                                                    random_state=const.TRAINER_TEST_RANDOM_STATE)
-            print("trainer value: ", X_train, X_test, y_train, y_test)
-            return X_train, X_test, y_train, y_test  
+            return X_train, X_test, y_train, y_test 
+         
     
     def train_model(self):
         """
@@ -177,3 +172,4 @@ class MLModelTrainer:
 
         # Save the model
         model.save(const.ML_MODEL)
+        self.callback('exit')

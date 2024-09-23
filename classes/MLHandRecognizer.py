@@ -12,7 +12,7 @@ class MLHandRecognizer:
     """
     Class to handle the real time gesture recognition for the trained model.
 
-    Parameters
+    Parameter
     ----------
     None
 
@@ -30,7 +30,7 @@ class MLHandRecognizer:
     model = any
     
     
-    def __init__(self, source):
+    def __init__(self, source, callback):
         """
         Default class initializer.
 
@@ -38,6 +38,8 @@ class MLHandRecognizer:
         --------
         source: Path
             Path location of the model.
+        callback: Method    
+            Call back function.    
 
         Return
         ------
@@ -50,7 +52,7 @@ class MLHandRecognizer:
                                            max_num_hands=2, 
                                            min_detection_confidence=0.5)
         self.mp_drawing = mp.solutions.drawing_utils
-
+        self.callback = callback
 
     # Function to preprocess frame
     def preprocess_frame(self, frame):
@@ -144,12 +146,15 @@ class MLHandRecognizer:
                     # Display the frame
                     cv.imshow('Hand Gesture Recognition', frame)
 
-                    if cv.waitKey(1) & 0xFF == ord('q'):
+                    if cv.waitKey(1) & 0xFF == ord('q'): 
+                        self.callback('exit') 
                         break
                 else:
                     cap.release()
-                    cv.destroyAllWindows()    
+                    cv.destroyAllWindows()  
+                    self.callback('exit') 
                     break 
 
         except KeyboardInterrupt:
+            self.callback('exit')
             sys.exit()

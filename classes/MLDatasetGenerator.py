@@ -1,7 +1,7 @@
 # Joseph Patambag
 # September 12, 2024
 
-import cv2
+import cv2 as cv
 import os
 import sys
 import numpy as np
@@ -10,9 +10,9 @@ import config.constants as const
 
 class MLDatasetGenerator:
     """
-    This class will enable the video camera capture from cv2.
+    This class will enable the video camera capture from cv.
 
-    Parameters
+    Parameter
     ----------
     None
 
@@ -27,13 +27,14 @@ class MLDatasetGenerator:
     hand_gesture = any
     mp_drawing = any
 
-    def __init__(self) -> None:
+    def __init__(self, callback) -> None:
         """
         Default class initializer.
 
         Parameter
         --------
-        None
+        callback: Method    
+            Call back function.
 
         Return
         ------
@@ -47,6 +48,7 @@ class MLDatasetGenerator:
                                max_num_hands=1, min_detection_confidence=0.5, 
                                min_tracking_confidence=0.5)
         self.mp_drawing = mp.solutions.drawing_utils
+        self.callback = callback
         self.initialize_directories()
         
     def initialize_directories(self):
@@ -76,7 +78,7 @@ class MLDatasetGenerator:
         None
         
         """
-        cap = cv2.VideoCapture(0)
+        cap = cv.VideoCapture(0)
         count = 0
         
         if not cap.isOpened():
@@ -92,10 +94,10 @@ class MLDatasetGenerator:
                     break
 
                 # Flip the frame horizontally for a later selfie-view display
-                frame = cv2.flip(frame, 1)
+                frame = cv.flip(frame, 1)
 
                 # Convert the image from BGR to RGB
-                image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                image_rgb = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
 
                 # To improve performance, optionally mark the image as not writeable to pass by reference
                 image_rgb.flags.writeable = False
@@ -135,12 +137,12 @@ class MLDatasetGenerator:
                             break  
                         
                         # Resize cropped hand region
-                        hand_resized = cv2.resize(hand_crop, 
+                        hand_resized = cv.resize(hand_crop, 
                                                 (const.VIDEO_IMAGE_SIZE, const.VIDEO_IMAGE_SIZE))
 
                         # Save the resized hand image to the dataset directory
                         image_path = os.path.join(const.VIDEO_DATA_DIRECTORY, gesture, f'{count}.jpg')
-                        cv2.imwrite(image_path, hand_resized)
+                        cv.imwrite(image_path, hand_resized)
                         print(f"Captured snapshot {count} for {gesture} max {const.VIDEO_NUM_CAPTURE}")
                         count += 1
 
@@ -149,21 +151,23 @@ class MLDatasetGenerator:
                             break
 
                 # Display the frame
-                cv2.imshow('Hand Gesture Capture', frame)
+                cv.imshow('Hand Gesture Capture', frame)
 
                 # Wait for user input
-                key = cv2.waitKey(1) & 0xFF
+                key = cv.waitKey(1) & 0xFF
                 if key == ord('q'):
+                    print(f"q data set")    
                     break
         except Exception as e:
             print(f"An error occurred: {e}")        
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  
             cap.release()
-            cv2.destroyAllWindows()    
-            exit     
+            cv.destroyAllWindows()    
+            self.callback('exit')     
         finally:
+            print(f"finally data set")  
             cap.release()
-            cv2.destroyAllWindows()    
+            cv.destroyAllWindows()
 
     def capture_gesture(self):
         """
@@ -181,4 +185,7 @@ class MLDatasetGenerator:
         #iterate each gesture and capture the snapshot.
         for gesture in self.gestures:
             print("gesture is ", gesture)
-            self.capture_hand_gesture(gesture)    
+            self.capture_hand_gesture(gesture)
+        else:
+            self.callback('exit')  
+                
