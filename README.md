@@ -22,7 +22,7 @@ Installation
 1. Clone the repository:
 bash
 Copy code
-git clone https://github.com/yourusername/gesture-recognizer.git
+git clone https://github.com/20240290/real_time_hand_gesture_recognizer.git
 cd gesture-recognizer
 
 Usage
