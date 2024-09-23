@@ -22,6 +22,7 @@ The Real-Time Gesture Recognizer is a computer vision application that uses Open
 
 1. Clone the repository:
 git clone https://github.com/20240290/real_time_hand_gesture_recognizer.git
+
 cd gesture-recognizer
 
 **Usage**
@@ -36,7 +37,7 @@ cd gesture-recognizer
     3. Recognize the gesture.
     4. Clear dataset.
     5. End the program.
-Note: Best option to clear the dataset if you want to start collecting new set of iamges.
+Note: Best option to clear the dataset if you want to start collecting new set of images.
 Then select the item 1 in the menu to capture the dataset of gestures.
 
 2. Training Custom Gestures by selecting 2 in the menu item.
