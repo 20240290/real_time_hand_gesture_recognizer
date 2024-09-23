@@ -44,12 +44,15 @@ Then select the item 1 in the menu to capture the dataset of gestures.
 3. Then select menu item 3 to start the gesture recognition.
 
 **License**
+Copyright © 2024, Joseph Patambag.
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 **Acknowledgments**
 OpenCV for computer vision capabilities.
 TensorFlow for machine learning support.
 Keras for building neural networks.
+
+
 
 **Credits**
 https://github.com/SAKU0309/SIGN-LANGUAGE-RECOGNITION
