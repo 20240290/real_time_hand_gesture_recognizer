@@ -50,6 +50,13 @@ def check_dependencies():
     except ImportError:
         missing_dependencies.append('mediapipe')
 
+    try:
+        import sklearn.model_selection
+        print("mediapipe library is installed")
+
+    except ImportError:
+        missing_dependencies.append('scikit-learn')
+
     if len(missing_dependencies) == 0:
         return True
     else:
