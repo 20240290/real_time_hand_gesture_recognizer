@@ -45,7 +45,7 @@ Then select the item 1 in the menu to capture the dataset of gestures.
 
 **License**
 Copyright © 2024, Joseph Patambag.
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. 
 
 **Acknowledgments**
 OpenCV for computer vision capabilities.
